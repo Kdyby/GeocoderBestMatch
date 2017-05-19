@@ -1,0 +1,45 @@
+{
+	"name": "kdyby/geocoder-best-match",
+	"type": "library",
+	"description": "Result sorting provider and aggregator for willdurand/geocoder",
+	"keywords": ["kdyby", "geocoder", "geocoding", "geo", "maps", "map", "sort", "sorting", "best", "closest"],
+	"homepage": "http://kdyby.org",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "Filip Procházka",
+			"homepage": "http://filip-prochazka.com",
+			"email": "filip@prochazka.su"
+		}
+	],
+	"support": {
+		"email": "filip@prochazka.su",
+		"issues": "https://github.com/Kdyby/GeocoderBestMatch/issues"
+	},
+	"require": {
+		"php": "^5.6 || ^7.0",
+		"willdurand/geocoder": "^3.0",
+		"kdyby/strict-objects": "^1.0"
+	},
+	"require-dev": {
+		"nette/tester": "^1.7",
+		"mockery/mockery": "^0.9"
+	},
+	"minimum-stability": "dev",
+	"autoload": {
+		"psr-4": {
+			"Kdyby\\Geocoder\\BestMatch\\": "src/"
+		},
+		"classmap": [
+			"src/exceptions.php"
+		]
+	},
+	"autoload-dev": {
+		"classmap": ["tests/KdybyTests/"]
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0-dev"
+		}
+	}
+}
