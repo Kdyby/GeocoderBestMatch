@@ -11,55 +11,46 @@
 namespace Kdyby\Geocoder\BestMatch\Comparator;
 
 use Geocoder\Model\Address;
-use Kdyby;
 use Kdyby\Geocoder\BestMatch\AddressComparator;
 use Kdyby\Geocoder\BestMatch\UserInputHelpers;
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class MoreDataComparator implements AddressComparator
+class MoreDataComparator implements \Kdyby\Geocoder\BestMatch\AddressComparator
 {
 
-	use Kdyby\StrictObjects\Scream;
+	use \Kdyby\StrictObjects\Scream;
 
 	/**
 	 * @var \Kdyby\Geocoder\BestMatch\AddressComparator|NULL
 	 */
 	private $fallback;
 
-
-
 	public function __construct(AddressComparator $fallback = NULL)
 	{
 		$this->fallback = $fallback;
 	}
-
-
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function compare(Address $a, Address $b, $query)
 	{
-		if (($compareCity = $this->compareCity($a, $b, $query)) !== 0) {
+		$compareCity = $this->compareCity($a, $b, $query);
+		if ($compareCity !== 0) {
 			return $compareCity;
 		}
 
-		if (($compareStreets = $this->compareStreet($a, $b, $query)) !== 0) {
+		$compareStreets = $this->compareStreet($a, $b, $query);
+		if ($compareStreets !== 0) {
 			return $compareStreets;
 		}
 
-		if (($compareNumbers = $this->compareNumbers($a, $b, $query)) !== 0) {
+		$compareNumbers = $this->compareNumbers($a, $b, $query);
+		if ($compareNumbers !== 0) {
 			return $compareNumbers;
 		}
 
 		return $this->fallback !== NULL ? $this->fallback->compare($a, $b, $query) : 0;
 	}
-
-
 
 	protected function compareCity(Address $a, Address $b, $query)
 	{
@@ -83,8 +74,6 @@ class MoreDataComparator implements AddressComparator
 		return 0;
 	}
 
-
-
 	protected function compareStreet(Address $a, Address $b, $query)
 	{
 		if (!$a->getStreetName() && !$b->getStreetName()) {
@@ -106,8 +95,6 @@ class MoreDataComparator implements AddressComparator
 
 		return 0;
 	}
-
-
 
 	protected function compareNumbers(Address $a, Address $b, $query)
 	{
@@ -153,8 +140,6 @@ class MoreDataComparator implements AddressComparator
 		return 0;
 	}
 
-
-
 	/**
 	 * @param \stdClass|NULL $number
 	 * @return bool
@@ -163,8 +148,6 @@ class MoreDataComparator implements AddressComparator
 	{
 		return !empty($number->hn) && !empty($number->on);
 	}
-
-
 
 	/**
 	 * @param \stdClass|NULL $a
@@ -187,8 +170,6 @@ class MoreDataComparator implements AddressComparator
 
 		return FALSE;
 	}
-
-
 
 	/**
 	 * @param \stdClass|NULL $a

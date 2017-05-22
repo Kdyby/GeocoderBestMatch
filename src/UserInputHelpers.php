@@ -10,21 +10,14 @@
 
 namespace Kdyby\Geocoder\BestMatch;
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
 class UserInputHelpers
 {
 
-	/** regexes for parsing address */
+	// regexes for parsing address
 	const RE_STREET = '(?P<street>(?:[0-9]+(?=[^/,]+))?[^/,0-9]+(?<![\s\,]))'; // '(?P<street>([0-9]+(?=[^/,]+))?[^/,0-9]+(?=[a-z\s\,]))';
 	const RE_NUMBER = '(?P<number>[0-9]+(?:\/[0-9]+)?[a-z]?)';
 	const RE_CITY = '(?P<city>(?:(?P<city_name>[^,-]+(?<!\s))(?:(?<!\s)-(?!\s)(?P<city_part>\\5[^,]+(?<!\s)))?)|(?:[^,]+(?<!\s)))';
 	const RE_POSTAL_CODE = '(?P<psc>\d{3}\s?\d{2})';
-
-
 
 	/**
 	 * @param string $number
@@ -36,8 +29,6 @@ class UserInputHelpers
 			? self::normalizeNumber($m)
 			: NULL;
 	}
-
-
 
 	/**
 	 * @param array $m
@@ -66,8 +57,6 @@ class UserInputHelpers
 		return $m;
 	}
 
-
-
 	/**
 	 * @param string $street
 	 * @return \stdClass|NULL
@@ -88,8 +77,6 @@ class UserInputHelpers
 		];
 	}
 
-
-
 	/**
 	 * @param string $postalCode
 	 * @return \stdClass|null
@@ -109,8 +96,6 @@ class UserInputHelpers
 			'country' => self::matchCountry($postalCode),
 		];
 	}
-
-
 
 	/**
 	 * @param string $address
@@ -135,8 +120,6 @@ class UserInputHelpers
 			'country' => self::matchCountry($address),
 		];
 	}
-
-
 
 	/**
 	 * @param string $address
@@ -168,8 +151,6 @@ class UserInputHelpers
 		];
 	}
 
-
-
 	/**
 	 * @param string $address
 	 * @return string|NULL
@@ -180,8 +161,6 @@ class UserInputHelpers
 			? $m['country']
 			: NULL;
 	}
-
-
 
 	/**
 	 * @param string $value

@@ -10,32 +10,17 @@
 
 namespace Kdyby\Geocoder\BestMatch;
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
 interface Exception
 {
 
 }
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class InvalidArgumentException extends \InvalidArgumentException implements Exception
+class InvalidArgumentException extends \InvalidArgumentException implements \Kdyby\Geocoder\BestMatch\Exception
 {
 
 }
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class InvalidStateException extends \RuntimeException implements Exception
+class InvalidStateException extends \RuntimeException implements \Kdyby\Geocoder\BestMatch\Exception
 {
 
 }

@@ -10,6 +10,8 @@
 
 namespace Kdyby\Geocoder\BestMatch;
 
+use Closure;
+
 /**
  * @internal
  */
@@ -24,7 +26,7 @@ class StableSort
 	 * @param \Closure $cmp
 	 * @return array
 	 */
-	public static function sort($array, \Closure $cmp)
+	public static function sort($array, Closure $cmp)
 	{
 		$index = 0;
 		foreach ($array as &$a) {

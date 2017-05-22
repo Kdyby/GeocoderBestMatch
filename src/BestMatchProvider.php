@@ -12,20 +12,12 @@ namespace Kdyby\Geocoder\BestMatch;
 
 use Geocoder\Model\Address;
 use Geocoder\Model\AddressCollection;
-use Geocoder\Provider\AbstractProvider;
 use Geocoder\Provider\Provider;
-use Geocoder\ProviderAggregator;
-use Kdyby;
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class BestMatchProvider extends AbstractProvider implements Provider
+class BestMatchProvider extends \Geocoder\Provider\AbstractProvider implements \Geocoder\Provider\Provider
 {
 
-	use Kdyby\StrictObjects\Scream;
+	use \Kdyby\StrictObjects\Scream;
 
 	/**
 	 * @var \Geocoder\Provider\Provider
@@ -37,16 +29,12 @@ class BestMatchProvider extends AbstractProvider implements Provider
 	 */
 	private $comparator;
 
-
-
 	public function __construct(Provider $provider, AddressComparator $comparator)
 	{
 		parent::__construct();
 		$this->provider = $provider;
 		$this->comparator = $comparator;
 	}
-
-
 
 	/**
 	 * {@inheritDoc}
@@ -65,8 +53,6 @@ class BestMatchProvider extends AbstractProvider implements Provider
 		return new AddressCollection($allAddresses);
 	}
 
-
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -76,8 +62,6 @@ class BestMatchProvider extends AbstractProvider implements Provider
 			->limit($this->getLimit())
 			->reverse($latitude, $longitude);
 	}
-
-
 
 	/**
 	 * {@inheritDoc}

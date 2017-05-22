@@ -12,17 +12,12 @@ namespace Kdyby\Geocoder\BestMatch;
 
 use Geocoder\Model\Address;
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
 interface AddressComparator
 {
 
 	/**
-	 * @param Address $a
-	 * @param Address $b
+	 * @param \Geocoder\Model\Address $a
+	 * @param \Geocoder\Model\Address $b
 	 * @param string $geocoderQuery
 	 * @return int
 	 */

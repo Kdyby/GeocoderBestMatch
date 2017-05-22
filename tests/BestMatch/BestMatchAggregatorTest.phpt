@@ -2,26 +2,23 @@
 
 /**
  * Test: Kdyby\Geocoder\BestMatch\BestMatchAggregator.
+ *
  * @testCase
  */
 
 namespace KdybyTests\Geocoder\BestMatch;
 
 use Geocoder\Model\AddressCollection;
-use Kdyby;
+use Geocoder\Provider\Provider;
+use Geocoder\ProviderAggregator;
 use Kdyby\Geocoder\BestMatch\AddressComparator;
 use Kdyby\Geocoder\BestMatch\BestMatchAggregator;
-use Tester;
+use Mockery;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class BestMatchAggregatorTest extends Tester\TestCase
+class BestMatchAggregatorTest extends \Tester\TestCase
 {
 
 	public function testGeocoder()
@@ -30,23 +27,23 @@ class BestMatchAggregatorTest extends Tester\TestCase
 		$b = Helpers::createAddress('Brno', 'Soukenická', 5);
 
 		/** @var \Geocoder\Provider\Provider|\Mockery\MockInterface $provider1 */
-		$provider1 = \Mockery::mock(\Geocoder\Provider\Provider::class);
+		$provider1 = Mockery::mock(Provider::class);
 		$provider1->shouldReceive('geocode')->andReturn(new AddressCollection([$a]));
 
 		/** @var \Geocoder\Provider\Provider|\Mockery\MockInterface $provider1 */
-		$provider2 = \Mockery::mock(\Geocoder\Provider\Provider::class);
+		$provider2 = Mockery::mock(Provider::class);
 		$provider2->shouldReceive('geocode')->andReturn(new AddressCollection([$b]));
 
 		/** @var \Geocoder\ProviderAggregator|\Mockery\MockInterface $aggregator */
-		$aggregator = \Mockery::mock(\Geocoder\ProviderAggregator::Class);
+		$aggregator = Mockery::mock(ProviderAggregator::Class);
 		$aggregator->shouldReceive('getLimit')->andReturn(5);
 		$aggregator->shouldReceive('getProviders')->andReturn([
 			$provider1,
-			$provider2
+			$provider2,
 		]);
 
 		/** @var \Kdyby\Geocoder\BestMatch\AddressComparator|\Mockery\MockInterface $comparator */
-		$comparator = \Mockery::mock(AddressComparator::class);
+		$comparator = Mockery::mock(AddressComparator::class);
 		$comparator->shouldReceive('compare')->andReturnUsing(function ($j, $k) use ($a, $b) {
 			return $j === $a ? -1 : 1;
 		});
@@ -59,11 +56,9 @@ class BestMatchAggregatorTest extends Tester\TestCase
 		Assert::same($b, $result->get(1));
 	}
 
-
-
 	protected function tearDown()
 	{
-		\Mockery::close();
+		Mockery::close();
 	}
 
 }

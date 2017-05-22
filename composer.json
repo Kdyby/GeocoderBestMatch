@@ -35,7 +35,9 @@
 		]
 	},
 	"autoload-dev": {
-		"classmap": ["tests/KdybyTests/"]
+		"psr-4": {
+			"KdybyTests\\Geocoder\\BestMatch\\": "tests/BestMatch/"
+		}
 	},
 	"extra": {
 		"branch-alias": {

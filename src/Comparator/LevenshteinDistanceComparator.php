@@ -11,32 +11,22 @@
 namespace Kdyby\Geocoder\BestMatch\Comparator;
 
 use Geocoder\Model\Address;
-use Kdyby;
 use Kdyby\Geocoder\BestMatch\AddressComparator;
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class LevenshteinDistanceComparator implements AddressComparator
+class LevenshteinDistanceComparator implements \Kdyby\Geocoder\BestMatch\AddressComparator
 {
 
-	use Kdyby\StrictObjects\Scream;
+	use \Kdyby\StrictObjects\Scream;
 
 	/**
 	 * @var \Kdyby\Geocoder\BestMatch\AddressComparator|NULL
 	 */
 	private $fallback;
 
-
-
 	public function __construct(AddressComparator $fallback = NULL)
 	{
 		$this->fallback = $fallback;
 	}
-
-
 
 	/**
 	 * {@inheritDoc}
@@ -53,14 +43,10 @@ class LevenshteinDistanceComparator implements AddressComparator
 		return $this->fallback !== NULL ? $this->fallback->compare($a, $b, $geocoderQuery) : 0;
 	}
 
-
-
 	private function formatSimpleFull(Address $address)
 	{
 		return ($address->getStreetName() ? $this->formatStreet($address) . ', ' : '') . $address->getLocality();
 	}
-
-
 
 	private function formatStreet(Address $address)
 	{

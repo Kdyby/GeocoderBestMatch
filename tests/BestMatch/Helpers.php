@@ -10,20 +10,13 @@
 
 namespace KdybyTests\Geocoder\BestMatch;
 
-use Geocoder\Model\Address;
 use Geocoder\Model\AddressFactory;
-use Kdyby;
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
 class Helpers
 {
 
 	/**
-	 * @return Address
+	 * @return \Geocoder\Model\Address
 	 */
 	public static function createAddress($city, $street, $houseNumber = NULL, $orientationNumber = NULL, $postalCode = NULL)
 	{

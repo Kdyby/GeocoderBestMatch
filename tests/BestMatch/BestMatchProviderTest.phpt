@@ -2,26 +2,22 @@
 
 /**
  * Test: Kdyby\Geocoder\BestMatch\BestMatchProvider.
+ *
  * @testCase
  */
 
 namespace KdybyTests\Geocoder\BestMatch;
 
 use Geocoder\Model\AddressCollection;
-use Kdyby;
+use Geocoder\Provider\Provider;
 use Kdyby\Geocoder\BestMatch\AddressComparator;
 use Kdyby\Geocoder\BestMatch\BestMatchProvider;
-use Tester;
+use Mockery;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class BestMatchProviderTest extends Tester\TestCase
+class BestMatchProviderTest extends \Tester\TestCase
 {
 
 	public function testGeocoder()
@@ -30,12 +26,12 @@ class BestMatchProviderTest extends Tester\TestCase
 		$b = Helpers::createAddress('Brno', 'Soukenická', 5);
 
 		/** @var \Geocoder\Provider\Provider|\Mockery\MockInterface $provider */
-		$provider = \Mockery::mock(\Geocoder\Provider\Provider::class);
+		$provider = Mockery::mock(Provider::class);
 		$provider->shouldReceive('geocode')->andReturn(new AddressCollection([$a, $b]));
 		$provider->shouldReceive('limit')->andReturn($provider);
 
 		/** @var \Kdyby\Geocoder\BestMatch\AddressComparator|\Mockery\MockInterface $comparator */
-		$comparator = \Mockery::mock(AddressComparator::class);
+		$comparator = Mockery::mock(AddressComparator::class);
 		$comparator->shouldReceive('compare')->andReturnUsing(function ($j, $k) use ($a, $b) {
 			return $j === $a ? -1 : 1;
 		});
@@ -48,11 +44,9 @@ class BestMatchProviderTest extends Tester\TestCase
 		Assert::same($b, $result->get(1));
 	}
 
-
-
 	protected function tearDown()
 	{
-		\Mockery::close();
+		Mockery::close();
 	}
 
 }

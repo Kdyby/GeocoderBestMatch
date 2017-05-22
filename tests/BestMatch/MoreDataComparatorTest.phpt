@@ -2,26 +2,20 @@
 
 /**
  * Test: Kdyby\Geocoder\BestMatch\Comparator\MoreDataComparator.
+ *
  * @testCase
  */
 
 namespace KdybyTests\Geocoder\BestMatch;
 
 use Geocoder\Model\Address;
-use Kdyby;
 use Kdyby\Geocoder\BestMatch\Comparator\MoreDataComparator;
 use Kdyby\Geocoder\BestMatch\StableSort;
-use Tester;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class MoreDataComparatorTest extends Tester\TestCase
+class MoreDataComparatorTest extends \Tester\TestCase
 {
 
 	/**
@@ -33,92 +27,103 @@ class MoreDataComparatorTest extends Tester\TestCase
 		Assert::same($expected, $comparator->compare($a, $b, $query));
 	}
 
-
-
 	public function dataCompare()
 	{
 		return [
 			[
-				1, 'Soukenická 5, Brno',
+				1,
+				'Soukenická 5, Brno',
 				Helpers::createAddress('Brno', 'Hlavní', 5),
 				Helpers::createAddress('Brno', 'Soukenická', 5, 559),
 			],
 			[
-				1, 'Soukenická 5, Brno',
+				1,
+				'Soukenická 5, Brno',
 				Helpers::createAddress('Praha', 'Soukenická', 5),
 				Helpers::createAddress('Brno', 'Soukenická', 5, 559),
 			],
 			[
-				0, 'Soukenická 5, Brno',
+				0,
+				'Soukenická 5, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', 5),
 				Helpers::createAddress('Brno', 'Soukenická', 5),
 			],
 			[
-				0, 'Soukenická 5, Brno',
+				0,
+				'Soukenická 5, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', 559, 5),
 				Helpers::createAddress('Brno', 'Soukenická', 559, 5),
 			],
 			[
-				-1, 'Soukenická 5, Brno',
+				-1,
+				'Soukenická 5, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', 559, 5),
 				Helpers::createAddress('Brno', 'Soukenická', 5),
 			],
 			[
-				1, 'Soukenická 5, Brno',
+				1,
+				'Soukenická 5, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', 5),
 				Helpers::createAddress('Brno', 'Soukenická', 5, 559), // wrong order
 			],
 			[
-				-1, 'Soukenická 5, Brno',
+				-1,
+				'Soukenická 5, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', 559, 5),
 				Helpers::createAddress('Brno', 'Soukenická'),
 			],
 			[
-				1, 'Soukenická 5, Brno',
+				1,
+				'Soukenická 5, Brno',
 				Helpers::createAddress('Brno', 'Soukenická'),
 				Helpers::createAddress('Brno', 'Soukenická', 5, 559), // wrong order
 			],
 			[
-				0, 'Soukenická 559, Brno',
+				0,
+				'Soukenická 559, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', 559),
 				Helpers::createAddress('Brno', 'Soukenická', 559),
 			],
 			[
-				0, 'Soukenická 559, Brno',
+				0,
+				'Soukenická 559, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', NULL, 5),
 				Helpers::createAddress('Brno', 'Soukenická', NULL, 5),
 			],
 			[
-				-1, 'Soukenická 559, Brno',
+				-1,
+				'Soukenická 559, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', 559),
 				Helpers::createAddress('Brno', 'Soukenická', NULL, 5),
 			],
 			[
-				-1, 'Soukenická 559, Brno',
+				-1,
+				'Soukenická 559, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', NULL, 559),
 				Helpers::createAddress('Brno', 'Soukenická', 5),
 			],
 			[
-				0, 'Soukenická 559/5, Brno',
+				0,
+				'Soukenická 559/5, Brno',
 				Helpers::createAddress('Brno', 'Soukenická', 559, 5),
 				Helpers::createAddress('Brno', 'Soukenická', 559, 5),
 			],
 			[
-				0, 'Soukenická 5/559, Brno', // wrong order
+				0,
+				'Soukenická 5/559, Brno', // wrong order
 				Helpers::createAddress('Brno', 'Soukenická', 559, 5),
 				Helpers::createAddress('Brno', 'Soukenická', 559, 5),
 			],
 			[
-				1, 'Dobrovodská 2767/23a, České budějovice',
+				1,
+				'Dobrovodská 2767/23a, České budějovice',
 				Helpers::createAddress('České budějovice', 'Dobrovodská', '38', '23'),
 				Helpers::createAddress('České budějovice', 'Dobrovodská', '2767', '23a'),
 			],
 		];
 	}
 
-
-
-	public function testSort_sameCityOverNumbers()
+	public function testSortSameCityOverNumbers()
 	{
 		$query = 'Pobřežní 46, Kolín';
 		$list = [
@@ -136,9 +141,7 @@ class MoreDataComparatorTest extends Tester\TestCase
 		Assert::same([$b, $a, $c, $d], $list);
 	}
 
-
-
-	public function testSort_fullNumberInInput()
+	public function testSortFullNumberInInput()
 	{
 		$query = 'Soukenická 559/5, Brno';
 		$list = [
@@ -158,9 +161,7 @@ class MoreDataComparatorTest extends Tester\TestCase
 		Assert::same([$b, $c, $d, $a, $e, $f], $list);
 	}
 
-
-
-	public function testSort_houseNumberInInput()
+	public function testSortHouseNumberInInput()
 	{
 		$query = 'Soukenická 559, Brno';
 		$list = [
@@ -180,9 +181,7 @@ class MoreDataComparatorTest extends Tester\TestCase
 		Assert::same([$b, $d, $a, $c, $e, $f], $list);
 	}
 
-
-
-	public function testSort_orientationNumberInInput()
+	public function testSortOrientationNumberInInput()
 	{
 		$query = 'Soukenická 5, Brno';
 		$list = [

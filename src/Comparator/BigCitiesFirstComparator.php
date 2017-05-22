@@ -11,18 +11,12 @@
 namespace Kdyby\Geocoder\BestMatch\Comparator;
 
 use Geocoder\Model\Address;
-use Kdyby;
 use Kdyby\Geocoder\BestMatch\AddressComparator;
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class BigCitiesFirstComparator implements AddressComparator
+class BigCitiesFirstComparator implements \Kdyby\Geocoder\BestMatch\AddressComparator
 {
 
-	use Kdyby\StrictObjects\Scream;
+	use \Kdyby\StrictObjects\Scream;
 
 	/**
 	 * @var array
@@ -34,15 +28,11 @@ class BigCitiesFirstComparator implements AddressComparator
 	 */
 	private $fallback;
 
-
-
 	public function __construct(array $cityPriority, AddressComparator $fallback = NULL)
 	{
 		$this->cityPriority = array_flip($cityPriority);
 		$this->fallback = $fallback;
 	}
-
-
 
 	/**
 	 * {@inheritDoc}
@@ -79,15 +69,12 @@ class BigCitiesFirstComparator implements AddressComparator
 		}
 
 		return $this->fallback !== NULL ? $this->fallback->compare($a, $b, $geocoderQuery) : 0;
-
 	}
 
-
-
 	/**
-	 * @param Address $address
+	 * @param \Geocoder\Model\Address $address
 	 * @param string $geocoderQuery
-	 * @return boolean
+	 * @return bool
 	 */
 	private function queryContainsCity(Address $address, $geocoderQuery)
 	{
